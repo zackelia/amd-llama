@@ -1,6 +1,6 @@
 FROM ghcr.io/mckaywrigley/chatbot-ui:main
 
-ADD ui.sh /
+ADD ui/ui.sh /
 
 RUN chmod +x /ui.sh
 
