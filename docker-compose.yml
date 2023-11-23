@@ -1,0 +1,32 @@
+services:
+  amd-llama:
+    image: ghcr.io/zackelia/amd-llama:0.1.0
+    container_name: amd-llama
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
+    volumes:
+      - ./models:/models:ro
+    environment:
+      - "MODEL=/models/my-cool-model.gguf"
+      # To check if you need this environment variable, see README.md.
+      # - "HSA_OVERRIDE_GFX_VERSION=10.3.0"
+    # To check what extra arguments you should provide, see README.md.
+    # Without this parameter, you will get no GPU acceleration.
+    # command: --n_gpu_layers 35
+
+  chatbot-ui:
+    image: ghcr.io/zackelia/chatbot-ui:0.1.0
+    container_name: chatbot-ui
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - "OPENAI_API_KEY=dummy"  # This just needs to be some non-empty value.
+      - "OPENAI_API_HOST=http://amd-llama:8000"
+      - "DEFAULT_PROMPT=You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond succinctly and using markdown."
+      - "DEFAULT_MODEL=my-cool-model.gguf"
+      - "DEFAULT_TEMPERATURE=0.5"
