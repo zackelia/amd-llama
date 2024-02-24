@@ -3,18 +3,18 @@ Docker image with AMD support for llama_cpp_python+chatbot-ui
 
 ## Prerequisites
 
-Install amdgpu driver with ROCm 5.7 support. Download at https://www.amd.com/en/support/linux-drivers
+Install amdgpu driver with ROCm 6.0.2 support. Download at https://www.amd.com/en/support/linux-drivers
 
 Instructions adapted from https://amdgpu-install.readthedocs.io/en/latest/install-installing.html
 
 ```
-sudo apt install amdgpu-install_5.7.50700-1_all.deb
+sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
 amdgpu-install -y --accept-eula --usecase=rocm
 sudo usermod -a -G render $LOGNAME
 sudo usermod -a -G video $LOGNAME
 ```
 
-Reboot for changes to take affect.
+Reboot for changes to take effect.
 
 ## Usage
 

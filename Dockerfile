@@ -1,4 +1,4 @@
-FROM rocm/dev-ubuntu-22.04:5.7-complete AS builder
+FROM rocm/dev-ubuntu-22.04:6.0.2-complete AS builder
 
 ENV LLAMA_CPP_PYTHON_RELEASE 0.2.50
 
@@ -21,16 +21,15 @@ RUN python3 -m venv venv && \
                 -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}" \
     /venv/bin/pip install "llama-cpp-python[server]==${LLAMA_CPP_PYTHON_RELEASE}"
 
-FROM rocm/dev-ubuntu-22.04:5.7
+FROM rocm/dev-ubuntu-22.04:6.0.2
 
 COPY --from=builder /venv /venv
 
-# Maybe this isn't great with layering? But using 5.7 and copying the libraries
-# versus 5.7-complete is a savings of ~9GB.
-COPY --from=builder /opt/rocm-5.7.0/lib/libhipblas.so.1 /opt/rocm/lib
-COPY --from=builder /opt/rocm-5.7.0/lib/librocblas.so.3 /opt/rocm/lib
-COPY --from=builder /opt/rocm-5.7.0/lib/librocsolver.so.0 /opt/rocm/lib
-COPY --from=builder /opt/rocm-5.7.0/lib/librocsparse.so.0 /opt/rocm/lib
+# Copying the libraries is a savings of ~9GB.
+COPY --from=builder /opt/rocm-6.0.2/lib/libhipblas.so.2 /opt/rocm/lib
+COPY --from=builder /opt/rocm-6.0.2/lib/librocblas.so.4 /opt/rocm/lib
+COPY --from=builder /opt/rocm-6.0.2/lib/librocsolver.so.0 /opt/rocm/lib
+COPY --from=builder /opt/rocm-6.0.2/lib/librocsparse.so.1 /opt/rocm/lib
 COPY --from=builder /opt/rocm/lib/rocblas/library /opt/rocm/lib/rocblas/library
 
 EXPOSE 8000
