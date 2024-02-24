@@ -1,6 +1,6 @@
 services:
   amd-llama:
-    image: ghcr.io/zackelia/amd-llama:0.1.0
+    image: ghcr.io/zackelia/amd-llama:0.2.0
     container_name: amd-llama
     restart: unless-stopped
     ports:
@@ -19,7 +19,7 @@ services:
     # command: --n_gpu_layers 35
 
   chatbot-ui:
-    image: ghcr.io/zackelia/chatbot-ui:0.1.0
+    image: ghcr.io/zackelia/chatbot-ui:0.2.0
     container_name: chatbot-ui
     restart: unless-stopped
     ports:
