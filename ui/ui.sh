@@ -15,4 +15,7 @@ fi
 
 cd /app
 
+# This just needs to be some non-empty value.
+export OPENAI_API_KEY=dummy
+
 exec npm start
